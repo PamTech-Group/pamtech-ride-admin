@@ -36,7 +36,7 @@ const BookingManagement: React.FC = () => {
   };
 
   return (
-    <Box >
+    <Box>
       <Heading size="md" mb={2}>Booking Management</Heading>
       <VStack spacing={4} align="stretch">
         <Box>
