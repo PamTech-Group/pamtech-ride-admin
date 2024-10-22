@@ -6,7 +6,7 @@ import Dashboard from "./components/Dashboard";
 
 export default function Home() {
   return (
-    <Flex bg="whiteAlpha.900" minH="100vh">
+    <Flex bg="white" minH="100vh">
       
       <Box flex={1} p={4}>
         <Dashboard />

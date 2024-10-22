@@ -12,14 +12,14 @@ interface CarCardProps {
 
 const CarCard: React.FC<CarCardProps> = ({ name, image, purchasePrice, rentPrice, isAvailable }) => {
   return (
-    <Box bg="white" p={4} borderRadius="md" color='black' boxShadow="sm">
+    <Box bg="grayBg" p={4} borderRadius="md" color='black' boxShadow="sm">
       <HStack spacing={4}>
         <Image src={image} alt={name} boxSize="100px" objectFit="cover" borderRadius="md" />
         <VStack align="start" spacing={1}>
           <Text fontWeight="bold">{name}</Text>
           <Text fontSize="sm" color="gray.500">Purchase Price: ${purchasePrice.toLocaleString()}</Text>
           <Text fontSize="sm" color="gray.500">Rent Price: ${rentPrice}/day</Text>
-          <Badge colorScheme={isAvailable ? "green" : "purple"}>
+          <Badge bgColor='white' colorScheme={isAvailable ? "green" : "purple"}>
             {isAvailable ? "Available" : "Rented"}
           </Badge>
         </VStack>

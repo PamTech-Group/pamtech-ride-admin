@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
         <Text fontSize="sm" color="gray.500">Financial Trends Over Time</Text>
         {/* Add a chart component here */}
       </Box>
-      <Heading size="lg" mt={6}>Cars</Heading>
+      <Heading size="lg" mt={6}>Rides</Heading>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
         <CarCard
           name="Mercedes-Benz"

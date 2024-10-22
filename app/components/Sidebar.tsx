@@ -39,15 +39,15 @@ const Sidebar: React.FC = () => {
   return (
     <VStack bg="white" w="250px" h="100vh" position='fixed' 
     top={0} 
-    left={0} p={4} spacing={6} align="stretch"  overflowY="auto">
+    left={0} p={4} spacing={6} align="stretch"  overflowY="auto" borderRight='2px solid #f0f0f0'>
       <Text fontSize="xl" fontWeight="bold" color="#275aff">Pamtech</Text>
       <VStack spacing={4} align="stretch">
         <NavItem icon={FiHome} href="/">Dashboard</NavItem>
         <NavItem icon={FiDollarSign} href="/transactions">Transactions</NavItem>
         <NavItem icon={FiPieChart} href="/car-management">Car Management</NavItem>
-        <NavItem icon={FiSettings} href="/settings">Drivers Management</NavItem>
-        <NavItem icon={FiSettings} href="/settings">Bookings</NavItem>
-        <NavItem icon={FiSettings} href="/settings">Update Prices</NavItem>
+        <NavItem icon={FiSettings} href="/drivers">Drivers Management</NavItem>
+        <NavItem icon={FiSettings} href="/bookings">Bookings</NavItem>
+        <NavItem icon={FiSettings} href="/prices">Update Prices</NavItem>
 
       </VStack>
       <Flex flexDirection='column' gap={4} alignItems='left' mt="auto" color='black'>

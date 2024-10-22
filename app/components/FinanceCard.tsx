@@ -12,7 +12,7 @@ interface FinanceCardProps {
 
 const FinanceCard: React.FC<FinanceCardProps> = ({ title, value, change, isIncrease }) => {
   return (
-    <Box bg="white" p={4} borderRadius="md" color='black' boxShadow="sm">
+    <Box bg="grayBg" p={4} borderRadius="md" color='black' boxShadow="sm">
       <Text fontSize="sm" color="gray.500">{title}</Text>
       <Text fontSize="2xl" fontWeight="bold">${value.toLocaleString()}</Text>
       <Flex align="center" color={isIncrease ? "green.500" : "red.500"}>

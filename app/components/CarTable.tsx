@@ -39,7 +39,7 @@ const CarTable: React.FC<CarTableProps> = ({ cars }) => {
               <Td>{car.ownerName}</Td>
               <Td>{car.status}</Td>
               <Td>
-                <Button size="sm" colorScheme="blue">
+                <Button bgColor='primary' color='white' size="sm" colorScheme="blue">
                   View
                 </Button>
               </Td>

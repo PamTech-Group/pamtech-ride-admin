@@ -69,7 +69,7 @@ export default function CarsPage() {
 
 
   return (
-    <Box flex={1} bg="whiteAlpha.900" color="black" minH="100vh" p={4}>
+    <Box flex={1} bg="white" color="black" minH="100vh" p={4}>
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
         <Heading size="lg">Filter and Dataset</Heading>
         <Flex gap={2}>

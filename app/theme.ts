@@ -27,7 +27,8 @@ const theme = extendTheme({
     primary: "#275aff",
     tertiary: "#061E45",
     background: "#ffffff",
-   
+   input:'#e0e0e0',
+   grayBg:'#f0f0f0'
     
   },
   fontSizes: {
