@@ -16,49 +16,53 @@ import {
   Button,
   VStack,
   useToast,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from "@chakra-ui/react";
-import FinanceCard from "../components/FinanceCard";
 
-interface Expense {
+interface Transaction {
   description: string;
   amount: number;
+  type: 'income' | 'expense';
 }
 
-const initialExpenses: Expense[] = [
-  { description: "Fuel for Lexus 470  black", amount: 1500 },
-  { description: "Airtime", amount: 200 },
-  { description: "Securty clearance", amount: 400 },
-  { description: "Transportation", amount: 150 },
-  { description: "Fuel for Prado 180", amount: 50 },
+const initialTransactions: Transaction[] = [
+  { description: "Online Payment", amount: 5000, type: 'income' },
+  { description: "Rent", amount: 1500, type: 'expense' },
+  { description: "Utilities", amount: 200, type: 'expense' },
+  { description: "Cash Payment", amount: 7500, type: 'income' },
+  { description: "Groceries", amount: 400, type: 'expense' },
+  { description: "Transportation", amount: 150, type: 'expense' },
+  { description: "Internet", amount: 50, type: 'expense' },
 ];
 
 export default function TransactionsPage() {
-  const [totalIncome, setTotalIncome] = useState(12500);
-  const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
-  const [newExpense, setNewExpense] = useState({ description: "", amount: "" });
+  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
+  const [newTransaction, setNewTransaction] = useState({ description: "", amount: "", type: 'expense' as 'income' | 'expense' });
   const toast = useToast();
 
-  const totalExpenses = expenses.reduce(
-    (sum, expense) => sum + expense.amount,
-    0
-  );
+  const totalIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+  const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
   const balance = totalIncome - totalExpenses;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newExpense.description && newExpense.amount) {
-      setExpenses([
-        ...expenses,
+    if (newTransaction.description && newTransaction.amount) {
+      setTransactions([
+        ...transactions,
         {
-          description: newExpense.description,
-          amount: parseFloat(newExpense.amount),
+          description: newTransaction.description,
+          amount: parseFloat(newTransaction.amount),
+          type: newTransaction.type,
         },
       ]);
-      setNewExpense({ description: "", amount: "" });
+      setNewTransaction({ description: "", amount: "", type: 'expense' });
       toast({
-        title: "Expense added.",
-        status: "loading",
-        position: 'top-right',
+        title: `${newTransaction.type === 'income' ? 'Income' : 'Expense'} added.`,
+        status: "success",
         duration: 2000,
         isClosable: true,
       });
@@ -70,29 +74,39 @@ export default function TransactionsPage() {
       <Heading mb={6}>Income and Expenses Overview</Heading>
 
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10} mb={10}>
-        
-        <FinanceCard title="Total Income" value={totalIncome} change={3.5} isIncrease={true}/>
-        <FinanceCard title="Total Expense" value={totalExpenses} change={3.5} isIncrease={true}/>
-        <FinanceCard title="Balance" value={balance} change={3.5} isIncrease={true}/>
+        <Box bg="#f0f0f0" p={5} borderRadius="lg" boxShadow="md">
+          <Text fontSize="lg" fontWeight="bold">Total Income</Text>
+          <Text fontSize="3xl" color="green.500">${totalIncome.toLocaleString()}</Text>
+        </Box>
+        <Box bg="#f0f0f0" p={5} borderRadius="lg" boxShadow="md">
+          <Text fontSize="lg" fontWeight="bold">Total Expenses</Text>
+          <Text fontSize="3xl" color="red.500">${totalExpenses.toLocaleString()}</Text>
+        </Box>
+        <Box bg="#f0f0f0" p={5} borderRadius="lg" boxShadow="md">
+          <Text fontSize="lg" fontWeight="bold">Balance</Text>
+          <Text fontSize="3xl" color={balance >= 0 ? "green.500" : "red.500"}>${balance.toLocaleString()}</Text>
+        </Box>
       </SimpleGrid>
 
       <Flex direction={{ base: "column", md: "row" }} gap={10}>
         <Box flex={1}>
-          <Heading size="sm" mb={4}>
-            Expenses
-          </Heading>
+          <Heading size="md" mb={4}>Transactions</Heading>
           <Table variant="simple">
             <Thead>
               <Tr>
                 <Th>Description</Th>
+                <Th>Type</Th>
                 <Th isNumeric>Amount</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {expenses.map((expense, index) => (
+              {transactions.map((transaction, index) => (
                 <Tr key={index}>
-                  <Td>{expense.description}</Td>
-                  <Td isNumeric>${expense.amount.toLocaleString()}</Td>
+                  <Td>{transaction.description}</Td>
+                  <Td>{transaction.type}</Td>
+                  <Td isNumeric color={transaction.type === 'income' ? "green.500" : "red.500"}>
+                    ${transaction.amount.toLocaleString()}
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
@@ -100,37 +114,67 @@ export default function TransactionsPage() {
         </Box>
 
         <Box flex={1}>
-          <Heading size="sm" mb={8}>
-            Add New Expense
-          </Heading>
-          <form onSubmit={handleSubmit}>
-            <VStack spacing={6}>
-              <Input
-                size="sm"
-                outlineColor="#e0e0e0"
-                _placeholder={{ color: "gray" }}
-                placeholder="Expense Description"
-                value={newExpense.description}
-                onChange={(e) =>
-                  setNewExpense({ ...newExpense, description: e.target.value })
-                }
-              />
-              <Input
-                size="sm"
-                outlineColor="#e0e0e0"
-                _placeholder={{ color: "gray" }}
-                placeholder="Expense Amount"
-                type="number"
-                value={newExpense.amount}
-                onChange={(e) =>
-                  setNewExpense({ ...newExpense, amount: e.target.value })
-                }
-              />
-              <Button type="submit" bgColor='primary' color='white' colorScheme="blue" width="full">
-                Add Expense
-              </Button>
-            </VStack>
-          </form>
+          <Heading size="md" mb={4}>Add New Transaction</Heading>
+          <Tabs>
+            <TabList>
+              <Tab>Income</Tab>
+              <Tab>Expense</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <form onSubmit={handleSubmit}>
+                  <VStack spacing={4}>
+                    <Input
+                      size="sm"
+                      outlineColor="#e0e0e0"
+                      _placeholder={{ color: "gray" }}
+                      placeholder="Income Description"
+                      value={newTransaction.description}
+                      onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value, type: 'income' })}
+                    />
+                    <Input
+                      size="sm"
+                      outlineColor="#e0e0e0"
+                      _placeholder={{ color: "gray" }}
+                      placeholder="Income Amount"
+                      type="number"
+                      value={newTransaction.amount}
+                      onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value, type: 'income' })}
+                    />
+                    <Button  type="submit" fontSize='sm' colorScheme="blue" bgColor='primary' color='white' width="full">
+                      Add Income
+                    </Button>
+                  </VStack>
+                </form>
+              </TabPanel>
+              <TabPanel>
+                <form onSubmit={handleSubmit}>
+                  <VStack spacing={4}>
+                    <Input
+                      size="sm"
+                      outlineColor="#e0e0e0"
+                      _placeholder={{ color: "gray" }}
+                      placeholder="Expense Description"
+                      value={newTransaction.description}
+                      onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value, type: 'expense' })}
+                    />
+                    <Input
+                      size="sm"
+                      outlineColor="#e0e0e0"
+                      _placeholder={{ color: "gray" }}
+                      placeholder="Expense Amount"
+                      type="number"
+                      value={newTransaction.amount}
+                      onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value, type: 'expense' })}
+                    />
+                    <Button type="submit" bgColor='red.500' colorScheme="red" color='white' width="full">
+                      Add Expense
+                    </Button>
+                  </VStack>
+                </form>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Box>
       </Flex>
     </Box>

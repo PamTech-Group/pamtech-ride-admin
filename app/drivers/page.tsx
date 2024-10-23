@@ -141,6 +141,9 @@ export default function DriverManagementPage() {
             <FormControl>
               <FormLabel>Contact Details</FormLabel>
               <Input 
+               size="sm"
+               outlineColor="#e0e0e0"
+               _placeholder={{ color: "gray" }}
                 placeholder="Contact Details"
                 value={newDriver.contactDetails}
                 onChange={(e) => setNewDriver({...newDriver, contactDetails: e.target.value})}

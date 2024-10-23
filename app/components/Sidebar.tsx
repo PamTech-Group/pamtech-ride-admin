@@ -1,8 +1,10 @@
 'use client'
-import { VStack, Text, Icon, Flex, Avatar, Box, Link } from "@chakra-ui/react";
+import { VStack, Text, Icon, Flex, Avatar, Box, Link,  } from "@chakra-ui/react";
 import { FiHome, FiDollarSign, FiPieChart, FiSettings } from "react-icons/fi";
 import { usePathname } from 'next/navigation';
 import NextLink from 'next/link';
+import { Image } from "@chakra-ui/next-js";
+import logo from "../public/pamtech_logo_blue.webp"
 
 interface NavItemProps {
   icon: React.ElementType;
@@ -40,13 +42,18 @@ const Sidebar: React.FC = () => {
     <VStack bg="white" w="250px" h="100vh" position='fixed' 
     top={0} 
     left={0} p={4} spacing={6} align="stretch"  overflowY="auto" borderRight='2px solid #f0f0f0'>
-      <Text fontSize="xl" fontWeight="bold" color="#275aff">Pamtech</Text>
+     <Box >
+
+      <Image src={logo} alt="logo" height={45} width={180}  />
+<Box mt={4} bgColor='grayBg' height='2px' width='100%'/>
+     </Box>
+
       <VStack spacing={4} align="stretch">
         <NavItem icon={FiHome} href="/">Dashboard</NavItem>
         <NavItem icon={FiDollarSign} href="/transactions">Transactions</NavItem>
         <NavItem icon={FiPieChart} href="/car-management">Car Management</NavItem>
         <NavItem icon={FiSettings} href="/drivers">Drivers Management</NavItem>
-        <NavItem icon={FiSettings} href="/bookings">Bookings</NavItem>
+        <NavItem icon={FiSettings} href="/booking">Bookings</NavItem>
         <NavItem icon={FiSettings} href="/prices">Update Prices</NavItem>
 
       </VStack>
